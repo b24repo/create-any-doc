@@ -1,4 +1,4 @@
-interface SmartQuestion {
+export interface SmartQuestion {
     id: string;
     text: string;
     category: string;
@@ -28,4 +28,3 @@ export declare class UniversalDocumentService {
     private getFrameworkDomain;
     private getIndustryEnhancements;
 }
-export {};

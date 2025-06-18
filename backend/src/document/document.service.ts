@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { SmartPromptService } from '../services/smart-prompt/smart-prompt.service';
-import { ContentQualityService } from '../services/content-quality/content-quality.service';
-import { UniversalDocumentService } from '../services/universal/universal-document.service';
+import { ContentQualityService, QualityReport } from '../services/content-quality/content-quality.service';
+import { UniversalDocumentService, SmartQuestion } from '../services/universal/universal-document.service';
 import { CreateDocumentDto, GenerateQuestionsDto, ValidateQualityDto } from './dto/document.dto';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class DocumentService {
     private readonly universal: UniversalDocumentService,
   ) {}
 
-  async generateDocument(dto: CreateDocumentDto) {
+  async generateDocument(dto: CreateDocumentDto): Promise<any> {
     try {
       // Generate smart questions if not provided
       let questions = [];

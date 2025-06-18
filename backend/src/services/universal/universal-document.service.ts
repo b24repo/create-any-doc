@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-interface SmartQuestion {
+export interface SmartQuestion {
   id: string;
   text: string;
   category: string;

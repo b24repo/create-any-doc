@@ -1,11 +1,11 @@
-interface QualityCheck {
+export interface QualityCheck {
     name: string;
     score: number;
     severity: 'good' | 'warning' | 'critical';
     message: string;
     suggestions: string[];
 }
-interface QualityReport {
+export interface QualityReport {
     overallScore: number;
     checks: QualityCheck[];
     recommendations: string[];
@@ -21,4 +21,3 @@ export declare class ContentQualityService {
     private checkFrameworkCompliance;
     private getFrameworkKeywords;
 }
-export {};
