@@ -1,0 +1,50 @@
+import axios from 'axios';
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export interface DocumentGenerationRequest {
+  documentType: string;
+  framework: string;
+  industry: string;
+  language?: string;
+  customRequirements?: string;
+  userResponses?: any[];
+}
+
+export interface DocumentGenerationResponse {
+  content: string;
+  qualityScore: number;
+  implementationGuide: any;
+  recommendations: string[];
+}
+
+export const documentApi = {
+  async generateDocument(request: DocumentGenerationRequest): Promise<DocumentGenerationResponse> {
+    const response = await api.post('/api/documents/generate', request);
+    return response.data;
+  },
+
+  async getQuestions(framework: string, documentType: string) {
+    const response = await api.get(`/api/documents/questions`, {
+      params: { framework, documentType }
+    });
+    return response.data;
+  },
+
+  async validateQuality(content: string, context: any) {
+    const response = await api.post('/api/documents/validate-quality', {
+      content,
+      context
+    });
+    return response.data;
+  }
+};
+
+export default api; 
