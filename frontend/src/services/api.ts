@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
-
+// Use relative URLs to work with the proxy configuration in package.json
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: '',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -19,10 +18,13 @@ export interface DocumentGenerationRequest {
 }
 
 export interface DocumentGenerationResponse {
-  content: string;
-  qualityScore: number;
-  implementationGuide: any;
-  recommendations: string[];
+  type?: 'questions' | 'document';
+  questions?: any[];
+  totalQuestions?: number;
+  content?: string;
+  qualityScore?: number;
+  implementationGuide?: any;
+  recommendations?: string[];
 }
 
 export const documentApi = {

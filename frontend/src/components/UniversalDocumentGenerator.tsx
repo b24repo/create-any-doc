@@ -52,6 +52,7 @@ export const UniversalDocumentGenerator: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [frameworks, setFrameworks] = useState<any[]>([]);
   const [documentTypes, setDocumentTypes] = useState<any[]>([]);
+  const [sampleQuestions, setSampleQuestions] = useState<any[]>([]);
 
   // Enhanced industries list
   const industries = [
@@ -156,21 +157,6 @@ export const UniversalDocumentGenerator: React.FC = () => {
     loadOptions();
   }, []);
 
-  const sampleQuestions = [
-    {
-      text: "To create an effective AI Acceptable Use Policy for your organization, describe: (1) What AI tools does your team use? (2) What data do these systems process? (3) Who uses these tools? (4) What are your main concerns?",
-      category: "ai_usage_context"
-    },
-    {
-      text: "Regarding security and compliance: (1) What sensitive data do you handle? (2) What compliance requirements do you have? (3) What security concerns do you have? (4) Have you had any incidents?",
-      category: "security_compliance"
-    },
-    {
-      text: "For governance and implementation: (1) Who should be responsible? (2) How should violations be handled? (3) How often should this be reviewed? (4) What's your timeline?",
-      category: "governance_implementation"
-    }
-  ];
-
   const handleStartGeneration = async () => {
     if (!selectedFramework || !selectedDocumentType) {
       setError('Please select both a framework and document type');
@@ -179,13 +165,28 @@ export const UniversalDocumentGenerator: React.FC = () => {
 
     setIsLoading(true);
     setError(null);
-    setCurrentStep('questions');
 
     try {
-      // For demo purposes, use sample questions
-      setCurrentQuestion(0);
-      setUserResponses([]);
+      // Fetch questions from backend
+      const result = await documentApi.generateDocument({
+        documentType: selectedDocumentType,
+        framework: selectedFramework,
+        industry: selectedIndustry,
+        customRequirements,
+        userResponses: [], // Empty to get questions
+      });
+
+      if (result.type === 'questions') {
+        setSampleQuestions(result.questions || []);
+        setCurrentQuestion(0);
+        setUserResponses([]);
+        setCurrentStep('questions');
+      } else {
+        setError('Unexpected response from server');
+        setCurrentStep('selection');
+      }
     } catch (err) {
+      console.error('Error fetching questions:', err);
       setError('Failed to generate questions. Please try again.');
       setCurrentStep('selection');
     } finally {
