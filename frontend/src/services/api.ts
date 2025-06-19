@@ -44,6 +44,16 @@ export const documentApi = {
       context
     });
     return response.data;
+  },
+
+  async getFrameworks() {
+    const response = await api.get('/api/documents/frameworks');
+    return response.data;
+  },
+
+  async getDocumentTypes() {
+    const response = await api.get('/api/documents/document-types');
+    return response.data;
   }
 };
 

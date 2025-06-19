@@ -97,23 +97,75 @@ ${industryEnhancements.compliance.map(comp => `- ${comp}`).join('\n')}
 
   getAvailableFrameworks() {
     return [
+      // Compliance & Regulatory
       { id: 'gdpr', name: 'GDPR', category: 'compliance' },
       { id: 'hipaa', name: 'HIPAA', category: 'compliance' },
-      { id: 'iso27001', name: 'ISO 27001', category: 'security' },
+      { id: 'ccpa', name: 'CCPA', category: 'compliance' },
       { id: 'sox', name: 'Sarbanes-Oxley', category: 'financial' },
       { id: 'pci-dss', name: 'PCI DSS', category: 'security' },
+      { id: 'iso27001', name: 'ISO 27001', category: 'security' },
+      { id: 'iso14001', name: 'ISO 14001', category: 'environmental' },
+      { id: 'iso9001', name: 'ISO 9001', category: 'quality' },
+      
+      // Technical & Security
+      { id: 'nist-cybersecurity', name: 'NIST Cybersecurity Framework', category: 'security' },
+      { id: 'owasp', name: 'OWASP Application Security', category: 'security' },
+      { id: 'devsecops', name: 'DevSecOps Framework', category: 'technical' },
+      { id: 'api-security', name: 'API Security Standards', category: 'technical' },
+      { id: 'cloud-security', name: 'Cloud Security Framework', category: 'technical' },
+      
+      // Emerging Technologies
+      { id: 'quantum-computing', name: 'Quantum Computing Security', category: 'emerging' },
+      { id: 'ai-ethics', name: 'AI Ethics Framework', category: 'emerging' },
+      { id: 'blockchain-security', name: 'Blockchain Security', category: 'emerging' },
+      { id: 'iot-security', name: 'IoT Security Framework', category: 'emerging' },
+      
+      // Environmental & Sustainability
+      { id: 'carbon-management', name: 'Carbon Management Framework', category: 'environmental' },
+      { id: 'esg-framework', name: 'ESG (Environmental, Social, Governance)', category: 'environmental' },
+      { id: 'sustainability-reporting', name: 'Sustainability Reporting', category: 'environmental' },
+      
+      // Business & Operations
+      { id: 'risk-management', name: 'Enterprise Risk Management', category: 'business' },
+      { id: 'business-continuity', name: 'Business Continuity Planning', category: 'business' },
+      { id: 'disaster-recovery', name: 'Disaster Recovery Framework', category: 'business' },
+      { id: 'change-management', name: 'Change Management Framework', category: 'business' },
+      
+      // Industry-Specific
+      { id: 'healthcare-compliance', name: 'Healthcare Compliance Framework', category: 'healthcare' },
+      { id: 'financial-services', name: 'Financial Services Framework', category: 'finance' },
+      { id: 'manufacturing-safety', name: 'Manufacturing Safety Standards', category: 'manufacturing' },
+      { id: 'education-privacy', name: 'Education Privacy Framework', category: 'education' },
+      
+      // Custom Framework
       { id: 'custom', name: 'Custom Framework', category: 'custom' },
     ];
   }
 
   getDocumentTypes() {
     return [
+      // Core Document Types
       { id: 'policy', name: 'Policy Document' },
       { id: 'procedure', name: 'Standard Operating Procedure' },
       { id: 'framework', name: 'Implementation Framework' },
       { id: 'plan', name: 'Strategic Plan' },
       { id: 'standard', name: 'Technical Standard' },
       { id: 'guide', name: 'Implementation Guide' },
+      
+      // Advanced Document Types
+      { id: 'playbook', name: 'Operational Playbook' },
+      { id: 'handbook', name: 'Employee Handbook' },
+      { id: 'manual', name: 'Technical Manual' },
+      { id: 'protocol', name: 'Security Protocol' },
+      { id: 'checklist', name: 'Compliance Checklist' },
+      { id: 'template', name: 'Document Template' },
+      { id: 'workflow', name: 'Process Workflow' },
+      { id: 'assessment', name: 'Risk Assessment' },
+      { id: 'audit-plan', name: 'Audit Plan' },
+      { id: 'training-material', name: 'Training Material' },
+      { id: 'incident-response', name: 'Incident Response Plan' },
+      { id: 'business-case', name: 'Business Case Document' },
+      { id: 'white-paper', name: 'Technical White Paper' },
     ];
   }
 
@@ -193,6 +245,132 @@ ${industryEnhancements.compliance.map(comp => `- ${comp}`).join('\n')}
           phase1: 'Financial risk assessment and control evaluation',
           phase2: 'Implementation of financial controls and monitoring',
           phase3: 'Regulatory reporting and audit preparation'
+        }
+      },
+      'manufacturing': {
+        requirements: [
+          'Industrial control system security',
+          'Supply chain security and vendor management',
+          'Product safety and quality standards',
+          'Environmental compliance and sustainability'
+        ],
+        compliance: [
+          'ISO 9001 quality management',
+          'ISO 14001 environmental management',
+          'OSHA safety regulations'
+        ],
+        timeline: {
+          phase1: 'Process mapping and risk assessment',
+          phase2: 'Implementation of quality and safety controls',
+          phase3: 'Continuous improvement and monitoring'
+        }
+      },
+      'education': {
+        requirements: [
+          'Student data privacy protection',
+          'FERPA compliance for educational records',
+          'Digital learning platform security',
+          'Research data protection'
+        ],
+        compliance: [
+          'FERPA (Family Educational Rights and Privacy Act)',
+          'COPPA (Children\'s Online Privacy Protection Act)',
+          'State education privacy laws'
+        ],
+        timeline: {
+          phase1: 'Educational data inventory and risk assessment',
+          phase2: 'Implementation of privacy controls and training',
+          phase3: 'Ongoing compliance monitoring and updates'
+        }
+      },
+      'government': {
+        requirements: [
+          'Federal information security requirements',
+          'Public records management and transparency',
+          'Cybersecurity incident response',
+          'Inter-agency data sharing protocols'
+        ],
+        compliance: [
+          'FISMA (Federal Information Security Management Act)',
+          'NIST Cybersecurity Framework',
+          'FOIA (Freedom of Information Act) compliance'
+        ],
+        timeline: {
+          phase1: 'Security assessment and gap analysis',
+          phase2: 'Implementation of security controls and monitoring',
+          phase3: 'Continuous monitoring and improvement'
+        }
+      },
+      'energy': {
+        requirements: [
+          'Critical infrastructure protection',
+          'Grid security and reliability standards',
+          'Environmental compliance and sustainability',
+          'Emergency response and business continuity'
+        ],
+        compliance: [
+          'NERC CIP (North American Electric Reliability Corporation)',
+          'EPA environmental regulations',
+          'State energy regulations'
+        ],
+        timeline: {
+          phase1: 'Infrastructure assessment and risk analysis',
+          phase2: 'Implementation of security and compliance controls',
+          phase3: 'Continuous monitoring and regulatory reporting'
+        }
+      },
+      'retail': {
+        requirements: [
+          'Customer data protection and privacy',
+          'Payment card security (PCI DSS)',
+          'Supply chain security and vendor management',
+          'E-commerce platform security'
+        ],
+        compliance: [
+          'PCI DSS for payment processing',
+          'CCPA and state privacy laws',
+          'Consumer protection regulations'
+        ],
+        timeline: {
+          phase1: 'Data inventory and security assessment',
+          phase2: 'Implementation of security controls and training',
+          phase3: 'Ongoing monitoring and compliance validation'
+        }
+      },
+      'telecommunications': {
+        requirements: [
+          'Network security and infrastructure protection',
+          'Customer privacy and data protection',
+          'Regulatory compliance and reporting',
+          'Service continuity and disaster recovery'
+        ],
+        compliance: [
+          'FCC regulations and requirements',
+          'CALEA (Communications Assistance for Law Enforcement Act)',
+          'State telecommunications regulations'
+        ],
+        timeline: {
+          phase1: 'Network security assessment and planning',
+          phase2: 'Implementation of security controls and monitoring',
+          phase3: 'Continuous compliance monitoring and reporting'
+        }
+      },
+      'consulting': {
+        requirements: [
+          'Client data protection and confidentiality',
+          'Professional services security standards',
+          'Intellectual property protection',
+          'Client engagement security protocols'
+        ],
+        compliance: [
+          'Professional services regulations',
+          'Client confidentiality requirements',
+          'Industry-specific compliance standards'
+        ],
+        timeline: {
+          phase1: 'Client data assessment and security planning',
+          phase2: 'Implementation of security controls and training',
+          phase3: 'Ongoing monitoring and client assurance'
         }
       }
     };

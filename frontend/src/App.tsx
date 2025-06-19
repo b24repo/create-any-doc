@@ -1,5 +1,5 @@
 import React from 'react';
-import { UniversalDocumentGenerator } from './components/UniversalDocumentGenerator';
+import { UniversalDocumentGenerator } from './components/UniversalDocumentGenerator.tsx';
 import './index.css';
 
 function App() {

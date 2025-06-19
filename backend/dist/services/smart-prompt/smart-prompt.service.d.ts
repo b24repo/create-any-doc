@@ -3,4 +3,8 @@ export declare class SmartPromptService {
     private extractUserContext;
     private formatUserContext;
     private getJurisdiction;
+    private getFrameworkSpecialization;
+    private getFrameworkSpecificQualityStandards;
+    private getDocumentStructure;
+    private getFrameworkSpecificOutputRequirements;
 }

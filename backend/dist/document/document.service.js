@@ -16,13 +16,15 @@ const prisma_service_1 = require("../prisma/prisma.service");
 const smart_prompt_service_1 = require("../services/smart-prompt/smart-prompt.service");
 const content_quality_service_1 = require("../services/content-quality/content-quality.service");
 const universal_document_service_1 = require("../services/universal/universal-document.service");
+const industry_enhancer_service_1 = require("../services/industry-enhancer/industry-enhancer.service");
 let DocumentService = class DocumentService {
-    constructor(prisma, config, smartPrompt, contentQuality, universal) {
+    constructor(prisma, config, smartPrompt, contentQuality, universal, industryEnhancer) {
         this.prisma = prisma;
         this.config = config;
         this.smartPrompt = smartPrompt;
         this.contentQuality = contentQuality;
         this.universal = universal;
+        this.industryEnhancer = industryEnhancer;
     }
     async generateDocument(dto) {
         try {
@@ -48,6 +50,7 @@ let DocumentService = class DocumentService {
                 finalContent = await this.contentQuality.improveContent(content, qualityReport, dto);
             }
             finalContent = await this.universal.enhanceWithIndustryContext(finalContent, dto.industry, dto.framework);
+            finalContent = this.industryEnhancer.enhanceDocumentWithSpecializedKnowledge(finalContent, dto.framework, dto.industry);
             const implementationGuide = this.universal.generateImplementationGuide(dto.framework, dto.documentType, dto.industry);
             const savedDocument = await this.saveDocument({
                 title: `${dto.documentType} - ${dto.framework}`,
@@ -128,6 +131,7 @@ exports.DocumentService = DocumentService = __decorate([
         config_1.ConfigService,
         smart_prompt_service_1.SmartPromptService,
         content_quality_service_1.ContentQualityService,
-        universal_document_service_1.UniversalDocumentService])
+        universal_document_service_1.UniversalDocumentService,
+        industry_enhancer_service_1.IndustryEnhancerService])
 ], DocumentService);
 //# sourceMappingURL=document.service.js.map

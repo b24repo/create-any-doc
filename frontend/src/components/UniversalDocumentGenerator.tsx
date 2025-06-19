@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FileText, 
   Brain, 
@@ -8,7 +8,7 @@ import {
   Download,
   Star
 } from 'lucide-react';
-import { documentApi } from '../services/api';
+import { documentApi } from '../services/api.ts';
 
 interface QualityCheck {
   name: string;
@@ -26,7 +26,7 @@ interface QualityReport {
 }
 
 interface DocumentResponse {
-  type: 'questions' | 'document';
+  type?: 'questions' | 'document';
   questions?: any[];
   totalQuestions?: number;
   content?: string;
@@ -34,6 +34,8 @@ interface DocumentResponse {
   qualityReport?: QualityReport;
   implementationGuide?: any;
   wordCount?: number;
+  id?: number;
+  estimatedReadTime?: number;
 }
 
 export const UniversalDocumentGenerator: React.FC = () => {
@@ -48,31 +50,111 @@ export const UniversalDocumentGenerator: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [documentResult, setDocumentResult] = useState<DocumentResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [frameworks, setFrameworks] = useState<any[]>([]);
+  const [documentTypes, setDocumentTypes] = useState<any[]>([]);
 
-  // Sample frameworks and document types
-  const frameworks = [
-    { id: 'gdpr', name: 'GDPR Compliance', category: 'compliance' },
-    { id: 'iso27001', name: 'ISO 27001', category: 'security' },
-    { id: 'hipaa', name: 'HIPAA', category: 'healthcare' },
-    { id: 'sox', name: 'Sarbanes-Oxley', category: 'financial' },
-    { id: 'custom', name: 'Custom Framework', category: 'custom' },
-  ];
-
-  const documentTypes = [
-    { id: 'ai-policy', name: 'AI Acceptable Use Policy' },
-    { id: 'privacy-policy', name: 'Privacy Policy' },
-    { id: 'security-policy', name: 'Information Security Policy' },
-    { id: 'data-governance', name: 'Data Governance Framework' },
-    { id: 'incident-response', name: 'Incident Response Plan' },
-  ];
-
+  // Enhanced industries list
   const industries = [
     { id: 'technology', name: 'Technology' },
     { id: 'healthcare', name: 'Healthcare' },
     { id: 'finance', name: 'Financial Services' },
     { id: 'manufacturing', name: 'Manufacturing' },
     { id: 'education', name: 'Education' },
+    { id: 'government', name: 'Government' },
+    { id: 'energy', name: 'Energy & Utilities' },
+    { id: 'retail', name: 'Retail & E-commerce' },
+    { id: 'telecommunications', name: 'Telecommunications' },
+    { id: 'consulting', name: 'Professional Services' },
   ];
+
+  // Load frameworks and document types on component mount
+  useEffect(() => {
+    const loadOptions = async () => {
+      try {
+        console.log('Loading frameworks and document types...');
+        const [frameworksData, documentTypesData] = await Promise.all([
+          documentApi.getFrameworks(),
+          documentApi.getDocumentTypes()
+        ]);
+        console.log('Loaded frameworks:', frameworksData);
+        console.log('Loaded document types:', documentTypesData);
+        setFrameworks(frameworksData);
+        setDocumentTypes(documentTypesData);
+      } catch (err) {
+        console.error('Failed to load options:', err);
+        // Enhanced fallback data with all the new frameworks
+        setFrameworks([
+          // Compliance & Regulatory
+          { id: 'gdpr', name: 'GDPR', category: 'compliance' },
+          { id: 'hipaa', name: 'HIPAA', category: 'compliance' },
+          { id: 'ccpa', name: 'CCPA', category: 'compliance' },
+          { id: 'sox', name: 'Sarbanes-Oxley', category: 'financial' },
+          { id: 'pci-dss', name: 'PCI DSS', category: 'security' },
+          { id: 'iso27001', name: 'ISO 27001', category: 'security' },
+          { id: 'iso14001', name: 'ISO 14001', category: 'environmental' },
+          { id: 'iso9001', name: 'ISO 9001', category: 'quality' },
+          
+          // Technical & Security
+          { id: 'nist-cybersecurity', name: 'NIST Cybersecurity Framework', category: 'security' },
+          { id: 'owasp', name: 'OWASP Application Security', category: 'security' },
+          { id: 'devsecops', name: 'DevSecOps Framework', category: 'technical' },
+          { id: 'api-security', name: 'API Security Standards', category: 'technical' },
+          { id: 'cloud-security', name: 'Cloud Security Framework', category: 'technical' },
+          
+          // Emerging Technologies
+          { id: 'quantum-computing', name: 'Quantum Computing Security', category: 'emerging' },
+          { id: 'ai-ethics', name: 'AI Ethics Framework', category: 'emerging' },
+          { id: 'blockchain-security', name: 'Blockchain Security', category: 'emerging' },
+          { id: 'iot-security', name: 'IoT Security Framework', category: 'emerging' },
+          
+          // Environmental & Sustainability
+          { id: 'carbon-management', name: 'Carbon Management Framework', category: 'environmental' },
+          { id: 'esg-framework', name: 'ESG (Environmental, Social, Governance)', category: 'environmental' },
+          { id: 'sustainability-reporting', name: 'Sustainability Reporting', category: 'environmental' },
+          
+          // Business & Operations
+          { id: 'risk-management', name: 'Enterprise Risk Management', category: 'business' },
+          { id: 'business-continuity', name: 'Business Continuity Planning', category: 'business' },
+          { id: 'disaster-recovery', name: 'Disaster Recovery Framework', category: 'business' },
+          { id: 'change-management', name: 'Change Management Framework', category: 'business' },
+          
+          // Industry-Specific
+          { id: 'healthcare-compliance', name: 'Healthcare Compliance Framework', category: 'healthcare' },
+          { id: 'financial-services', name: 'Financial Services Framework', category: 'finance' },
+          { id: 'manufacturing-safety', name: 'Manufacturing Safety Standards', category: 'manufacturing' },
+          { id: 'education-privacy', name: 'Education Privacy Framework', category: 'education' },
+          
+          // Custom Framework
+          { id: 'custom', name: 'Custom Framework', category: 'custom' },
+        ]);
+        setDocumentTypes([
+          // Core Document Types
+          { id: 'policy', name: 'Policy Document' },
+          { id: 'procedure', name: 'Standard Operating Procedure' },
+          { id: 'framework', name: 'Implementation Framework' },
+          { id: 'plan', name: 'Strategic Plan' },
+          { id: 'standard', name: 'Technical Standard' },
+          { id: 'guide', name: 'Implementation Guide' },
+          
+          // Advanced Document Types
+          { id: 'playbook', name: 'Operational Playbook' },
+          { id: 'handbook', name: 'Employee Handbook' },
+          { id: 'manual', name: 'Technical Manual' },
+          { id: 'protocol', name: 'Security Protocol' },
+          { id: 'checklist', name: 'Compliance Checklist' },
+          { id: 'template', name: 'Document Template' },
+          { id: 'workflow', name: 'Process Workflow' },
+          { id: 'assessment', name: 'Risk Assessment' },
+          { id: 'audit-plan', name: 'Audit Plan' },
+          { id: 'training-material', name: 'Training Material' },
+          { id: 'incident-response', name: 'Incident Response Plan' },
+          { id: 'business-case', name: 'Business Case Document' },
+          { id: 'white-paper', name: 'Technical White Paper' },
+        ]);
+      }
+    };
+    loadOptions();
+  }, []);
 
   const sampleQuestions = [
     {
@@ -184,7 +266,17 @@ export const UniversalDocumentGenerator: React.FC = () => {
         {/* Framework Selection */}
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h2 className="text-xl font-semibold mb-4">1. Select Framework</h2>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="mb-4">
+            <p className="text-sm text-gray-600 mb-2">Available frameworks: {frameworks.length}</p>
+            <div className="flex flex-wrap gap-2">
+              {Array.from(new Set(frameworks.map(f => f.category))).map(category => (
+                <span key={category} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                  {category}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
             {frameworks.map((framework) => (
               <button
                 key={framework.id}
@@ -193,10 +285,20 @@ export const UniversalDocumentGenerator: React.FC = () => {
                   selectedFramework === framework.name
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200 hover:border-gray-300'
+                } ${
+                  framework.category === 'emerging' ? 'border-purple-300 bg-purple-50' :
+                  framework.category === 'environmental' ? 'border-green-300 bg-green-50' :
+                  framework.category === 'technical' ? 'border-orange-300 bg-orange-50' :
+                  'border-gray-200'
                 }`}
               >
-                <h3 className="font-medium">{framework.name}</h3>
-                <p className="text-sm text-gray-600 capitalize">{framework.category}</p>
+                <h3 className="font-medium text-sm">{framework.name}</h3>
+                <p className="text-xs text-gray-600 capitalize mt-1">{framework.category}</p>
+                {framework.category === 'emerging' && (
+                  <span className="inline-block mt-1 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
+                    🚀 Advanced
+                  </span>
+                )}
               </button>
             ))}
           </div>
@@ -205,7 +307,10 @@ export const UniversalDocumentGenerator: React.FC = () => {
         {/* Document Type Selection */}
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h2 className="text-xl font-semibold mb-4">2. Select Document Type</h2>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="mb-4">
+            <p className="text-sm text-gray-600 mb-2">Available document types: {documentTypes.length}</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-64 overflow-y-auto">
             {documentTypes.map((type) => (
               <button
                 key={type.id}
@@ -216,7 +321,7 @@ export const UniversalDocumentGenerator: React.FC = () => {
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <h3 className="font-medium">{type.name}</h3>
+                <h3 className="font-medium text-sm">{type.name}</h3>
               </button>
             ))}
           </div>

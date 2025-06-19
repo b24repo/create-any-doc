@@ -13,6 +13,7 @@ const document_service_1 = require("./document.service");
 const smart_prompt_service_1 = require("../services/smart-prompt/smart-prompt.service");
 const content_quality_service_1 = require("../services/content-quality/content-quality.service");
 const universal_document_service_1 = require("../services/universal/universal-document.service");
+const industry_enhancer_service_1 = require("../services/industry-enhancer/industry-enhancer.service");
 let DocumentModule = class DocumentModule {
 };
 exports.DocumentModule = DocumentModule;
@@ -24,6 +25,7 @@ exports.DocumentModule = DocumentModule = __decorate([
             smart_prompt_service_1.SmartPromptService,
             content_quality_service_1.ContentQualityService,
             universal_document_service_1.UniversalDocumentService,
+            industry_enhancer_service_1.IndustryEnhancerService,
         ],
     })
 ], DocumentModule);
